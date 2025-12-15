@@ -20,11 +20,12 @@ Route::get('/', [BerandaController::class, 'index'])
 |--------------------------------------------------------------------------
 | MENU
 |--------------------------------------------------------------------------
-| URL tetap: /menu
-| Name: menu (supaya blade lama & baru sama-sama aman)
+| URL: /menu
+| Alias: menu DAN menu.index (biar blade lama & baru aman)
 */
 Route::get('/menu', [MenuController::class, 'index'])
-    ->name('menu');
+    ->name('menu')
+    ->name('menu.index');
 
 /*
 |--------------------------------------------------------------------------

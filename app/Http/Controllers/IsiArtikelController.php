@@ -7,14 +7,16 @@ use App\Models\IsiArtikel;
 class IsiArtikelController extends Controller
 {
     /**
-     * Halaman isi artikel berdasarkan slug
+     * ===============================
+     * HALAMAN ISI / DETAIL ARTIKEL
+     * View: resources/views/isiartikel.blade.php
+     * ===============================
      */
-    public function show($slug)
+    public function show(string $slug)
     {
         // Ambil artikel berdasarkan slug
         $artikel = IsiArtikel::where('slug', $slug)->firstOrFail();
 
-        // Gunakan view resources/views/isiartikel.blade.php
         return view('isiartikel', compact('artikel'));
     }
 }

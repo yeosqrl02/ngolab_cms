@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Artikels\Pages;
+namespace App\Filament\Resources\Artikels\ArtikelResource\Pages;
 
 use App\Filament\Resources\Artikels\ArtikelResource;
-use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Actions\DeleteAction;
 
 class EditArtikel extends EditRecord
 {

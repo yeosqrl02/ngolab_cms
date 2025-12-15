@@ -11,20 +11,24 @@ return new class extends Migration
         Schema::create('artikels', function (Blueprint $table) {
             $table->id();
 
+            // ================= DATA UTAMA
             $table->string('judul');
             $table->string('slug')->unique();
             $table->string('kategori')->nullable();
 
-            // file path di storage (public)
-            $table->string('thumbnail')->nullable();
+            // ================= AUTHOR (DIKETIK MANUAL)
+            $table->string('author')->nullable(); // 🔥 BUKAN foreign key
 
-            // ringkasan & isi
+            // ================= MEDIA
+            $table->string('thumbnail')->nullable(); // path storage/public/artikels
+
+            // ================= KONTEN
             $table->text('excerpt')->nullable();
-            $table->longText('konten')->nullable();
+            $table->longText('konten'); // WAJIB
 
-            // meta optional
-            $table->string('waktu_baca')->nullable();     // contoh "5 menit"
-            $table->timestamp('tanggal_publish')->nullable();
+            // ================= META
+            $table->string('waktu_baca')->nullable();         // contoh: "5 menit"
+            $table->dateTime('tanggal_publish')->nullable(); // tanggal + jam publish
 
             $table->timestamps();
         });

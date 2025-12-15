@@ -26,19 +26,11 @@
             </p>
         </div>
 
-        {{-- HERO IMAGE (CRUD + GRADIENT BACKGROUND) --}}
+        {{-- HERO IMAGE --}}
         <div class="relative flex justify-center lg:justify-end">
             <div class="relative">
-
-                {{-- GRADIENT BACKGROUND --}}
-                <div class="absolute -inset-12 rounded-full
-                            bg-gradient-to-br from-orange-200 via-orange-300 to-yellow-200
-                            blur-3xl opacity-80"></div>
-
-                {{-- SOFT RING --}}
-                <div class="absolute inset-0 rounded-full
-                            bg-gradient-to-br from-orange-300 via-yellow-300 to-orange-400
-                            opacity-30 scale-110"></div>
+                <div class="absolute -inset-12 rounded-full bg-gradient-to-br from-orange-200 via-orange-300 to-yellow-200 blur-3xl opacity-80"></div>
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-orange-300 via-yellow-300 to-orange-400 opacity-30 scale-110"></div>
 
                 @if(!empty($beranda->hero_image))
                     <img
@@ -46,14 +38,12 @@
                         class="relative w-96 h-96 lg:w-[500px] lg:h-[500px]
                                object-cover rounded-full
                                border-[12px] border-white
-                               shadow-2xl ring-4 ring-orange-300/40"
-                        alt="Hero Image">
+                               shadow-2xl ring-4 ring-orange-300/40">
                 @else
-                    <div
-                        class="relative w-96 h-96 lg:w-[500px] lg:h-[500px]
-                               rounded-full border-[12px] border-white
-                               bg-gradient-to-br from-orange-100 via-orange-200 to-yellow-100
-                               shadow-2xl flex items-center justify-center text-orange-400 font-semibold">
+                    <div class="relative w-96 h-96 lg:w-[500px] lg:h-[500px]
+                                rounded-full border-[12px] border-white
+                                bg-gradient-to-br from-orange-100 via-orange-200 to-yellow-100
+                                shadow-2xl flex items-center justify-center text-orange-400 font-semibold">
                         Belum ada gambar hero
                     </div>
                 @endif
@@ -63,46 +53,70 @@
 </section>
 
 
-{{-- ================= PROMO SECTION ================= --}}
-<section class="py-24 bg-white">
+{{-- ================= PROMO KHUSUS (SAMA PERSIS GAMBAR) ================= --}}
+<section class="py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-4xl font-extrabold text-center mb-16">
-            Promo Spesial 🔥
-        </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {{-- JUDUL --}}
+        <div class="text-center mb-16">
+            <h2 class="text-5xl font-extrabold text-orange-600 flex justify-center items-center gap-3">
+                Promo Khusus Bulan Ini! 🎁
+            </h2>
+            <p class="mt-4 text-lg text-gray-700">
+                Jangan sampai ketinggalan penawaran terbatas yang bikin dompet aman!
+            </p>
+        </div>
+
+        {{-- KARTU PROMO --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
             @forelse($beranda->promos ?? [] as $promo)
-                <div class="bg-red-50 rounded-3xl overflow-hidden shadow-2xl border-b-8 border-red-500">
-                    @if(!empty($promo['image']))
-                        <img src="{{ asset('storage/'.$promo['image']) }}"
-                             class="w-full h-56 object-cover">
-                    @else
-                        <div class="w-full h-56 bg-gray-100 flex items-center justify-center text-gray-400">
-                            Tidak ada gambar
-                        </div>
+                <div
+                    class="rounded-[28px] shadow-2xl p-10 text-center relative
+                           border-[3px] border-dashed
+                           {{ $loop->index === 0 ? 'bg-yellow-400 border-red-500' : '' }}
+                           {{ $loop->index === 1 ? 'bg-green-500 border-red-500' : '' }}
+                           {{ $loop->index === 2 ? 'bg-orange-500 border-red-500' : '' }}
+                           text-white">
+
+                    {{-- ICON --}}
+                    <div class="text-5xl mb-6">
+                        {{ $promo['icon'] ?? '✨' }}
+                    </div>
+
+                    {{-- TITLE --}}
+                    <h3 class="text-3xl font-extrabold mb-4 leading-snug whitespace-pre-line">
+                        {{ $promo['title'] ?? '' }}
+                    </h3>
+
+                    {{-- DESKRIPSI --}}
+                    <p class="text-lg mb-8 leading-relaxed">
+                        {{ $promo['subtitle'] ?? '' }}
+                    </p>
+
+                    {{-- BUTTON --}}
+                    @if(!empty($promo['button_text']))
+                        <a href="{{ url('/menu') }}"
+                           class="inline-block bg-white text-gray-900 font-extrabold
+                                  px-8 py-3 rounded-full shadow-lg
+                                  hover:scale-105 transition">
+                            {{ $promo['button_text'] }}
+                        </a>
                     @endif
 
-                    <div class="p-6 text-center">
-                        <h3 class="text-2xl font-extrabold mb-2">
-                            {{ $promo['title'] ?? '' }}
-                        </h3>
-                        <p class="italic text-gray-600 mb-4">
-                            {{ $promo['subtitle'] ?? '' }}
+                    {{-- FOOTNOTE --}}
+                    @if(!empty($promo['note']))
+                        <p class="mt-6 text-sm opacity-90">
+                            {{ $promo['note'] }}
                         </p>
-
-                        @if(!empty($promo['button_text']))
-                            <a href="{{ url('menu') }}"
-                               class="inline-block px-6 py-3 bg-orange-500 text-white rounded-full font-bold">
-                                {{ $promo['button_text'] }}
-                            </a>
-                        @endif
-                    </div>
+                    @endif
                 </div>
             @empty
-                <div class="text-center text-gray-400 col-span-full">
+                <div class="col-span-full text-center text-gray-400">
                     Belum ada promo.
                 </div>
             @endforelse
+
         </div>
     </div>
 </section>
@@ -163,6 +177,7 @@
         @endforelse
     </div>
 </section>
+
 
 <style>
 @keyframes marquee {

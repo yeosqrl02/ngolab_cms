@@ -12,36 +12,61 @@ class Artikel extends Model
 
     protected $table = 'artikels';
 
+    /**
+     * =========================
+     * FIELD YANG BOLEH DIISI
+     * =========================
+     */
     protected $fillable = [
         'judul',
         'slug',
         'kategori',
-        'thumbnail',      // path di storage/app/public/artikel/...
+        'author',           // ✅ STRING (diketik manual)
+        'thumbnail',
         'excerpt',
-        'konten',         // HTML / teks panjang
-        'waktu_baca',     // contoh: "5 menit"
-        'tanggal_publish' // datetime
-    ];
-
-    protected $casts = [
-        'tanggal_publish' => 'datetime',
+        'konten',
+        'waktu_baca',
+        'tanggal_publish',
     ];
 
     /**
-     * Buat slug otomatis dari judul saat create jika slug kosong.
+     * =========================
+     * CASTING
+     * =========================
+     */
+    protected $casts = [
+        'tanggal_publish' => 'datetime',
+        'created_at'      => 'datetime',
+        'updated_at'      => 'datetime',
+    ];
+
+    /**
+     * =========================
+     * BOOT MODEL
+     * - Auto generate slug
+     * - Auto set tanggal_publish jika kosong
+     * =========================
      */
     protected static function booted(): void
     {
         static::creating(function (Artikel $artikel) {
-            if (empty($artikel->slug) && !empty($artikel->judul)) {
-                $artikel->slug = Str::slug($artikel->judul);
 
-                // Pastikan unik (opsional sederhana)
-                $original = $artikel->slug;
+            // Auto slug dari judul
+            if (empty($artikel->slug) && ! empty($artikel->judul)) {
+                $slug = Str::slug($artikel->judul);
+                $original = $slug;
                 $i = 1;
-                while (static::where('slug', $artikel->slug)->exists()) {
-                    $artikel->slug = $original.'-'.$i++;
+
+                while (static::where('slug', $slug)->exists()) {
+                    $slug = $original . '-' . $i++;
                 }
+
+                $artikel->slug = $slug;
+            }
+
+            // Auto set tanggal publish jika belum diisi
+            if (empty($artikel->tanggal_publish)) {
+                $artikel->tanggal_publish = now();
             }
         });
     }
