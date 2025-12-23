@@ -129,10 +129,17 @@
     </h2>
 
     <div class="flex gap-6 w-max animate-marquee px-6">
-        @foreach($beranda->popular_menus ?? [] as $menu)
+        @php
+            use App\Models\Menu;
+            $popularMenus = Menu::whereIn('id', $beranda->popular_menus ?? [])->get();
+        @endphp
+
+        @foreach($popularMenus as $menu)
             <div class="min-w-[260px] bg-white rounded-3xl shadow-xl border-b-4 border-orange-500">
-                @if(!empty($menu['image']))
-                    <img src="{{ asset('storage/'.$menu['image']) }}"
+                
+                {{-- Gambar menu --}}
+                @if(!empty($menu->gambar))
+                    <img src="{{ asset('storage/'.$menu->gambar) }}"
                          class="w-full h-48 object-cover rounded-t-3xl">
                 @else
                     <div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
@@ -141,10 +148,10 @@
                 @endif
 
                 <div class="p-4">
-                    <h3 class="font-bold text-xl">{{ $menu['name'] ?? '' }}</h3>
-                    <p class="text-sm text-gray-600">{{ $menu['desc'] ?? '' }}</p>
+                    <h3 class="font-bold text-xl">{{ $menu->nama_menu }}</h3>
+                    <p class="text-sm text-gray-600">{{ $menu->desc ?? '' }}</p>
                     <div class="flex justify-between pt-2">
-                        <span class="font-bold text-red-600">{{ $menu['price'] ?? '' }}</span>
+                        <span class="font-bold text-red-600">{{ $menu->price ?? '' }}</span>
                         <a href="https://wa.me/6285895294530"
                            class="text-sm text-orange-500 border border-orange-500 rounded-full px-3 py-1">
                             Beli
@@ -155,7 +162,6 @@
         @endforeach
     </div>
 </section>
-
 
 {{-- ================= TESTIMONI ================= --}}
 <section class="py-24 bg-white">

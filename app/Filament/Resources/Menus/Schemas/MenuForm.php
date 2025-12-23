@@ -7,6 +7,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 
 class MenuForm
 {
@@ -26,13 +27,19 @@ class MenuForm
             ]),
 
             Grid::make(2)->schema([
-                TextInput::make('kategori')
+                Select::make('category_id')
                     ->label('Kategori')
-                    ->nullable(),
+                    ->relationship('category', 'name')
+                    ->required()
+                    ->createOptionForm([
+                        TextInput::make('name')->label('Nama Kategori')->required(),
+                        TextInput::make('slug')->label('Slug')->nullable(),
+                    ]),
 
                 TextInput::make('harga')
                     ->label('Harga')
-                    ->nullable(),
+                    ->numeric()
+                    ->required(),
             ]),
 
             Textarea::make('deskripsi')

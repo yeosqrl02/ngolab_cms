@@ -14,6 +14,9 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\MultiSelect;
+use App\Models\Menu;
+
 
 class BerandaResource extends Resource
 {
@@ -66,32 +69,16 @@ class BerandaResource extends Resource
                         ->default([]),
                 ]),
 
-            /* ================= MENU POPULER ================= */
+           /* ================= MENU POPULER ================= */
+
             Section::make('Menu Populer')
                 ->schema([
-                    Repeater::make('popular_menus')
-                        ->label('Menu Populer')
-                        ->schema([
-                            TextInput::make('name')
-                                ->label('Nama Menu')
-                                ->required(),
-
-                            Textarea::make('desc')
-                                ->label('Deskripsi'),
-
-                            TextInput::make('price')
-                                ->label('Harga'),
-
-                            FileUpload::make('image')
-                                ->label('Foto Menu')
-                                ->image()
-                                ->disk('public')       // ✅ WAJIB
-                                ->directory('beranda/menu'),
-                        ])
-                        ->reorderable()
-                        ->collapsible()
-                        ->default([]),
+                    MultiSelect::make('popular_menus')
+                        ->label('Pilih Menu Populer')
+                        ->options(Menu::whereNotNull('nama_menu')->pluck('nama_menu', 'id')) // pakai nama_menu
+                        ->preload(),
                 ]),
+
 
             /* ================= TESTIMONI ================= */
             Section::make('Testimoni')

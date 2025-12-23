@@ -24,8 +24,7 @@ Route::get('/', [BerandaController::class, 'index'])
 | Alias: menu DAN menu.index (biar blade lama & baru aman)
 */
 Route::get('/menu', [MenuController::class, 'index'])
-    ->name('menu')
-    ->name('menu.index');
+    ->name('menu'); // ✅ cukup satu
 
 /*
 |--------------------------------------------------------------------------

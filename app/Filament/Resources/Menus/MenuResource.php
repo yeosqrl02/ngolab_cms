@@ -57,9 +57,12 @@ class MenuResource extends Resource
             FileUpload::make('gambar')
                 ->label('Foto Menu')
                 ->image()
-                ->directory('menus')
+                ->directory('berandas/menus')
+                ->imageResizeTargetWidth(800)
+                ->imageResizeTargetHeight(600)
                 ->imagePreviewHeight('200')
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->disk('public'),
         ]);
     }
 
@@ -71,7 +74,8 @@ class MenuResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('gambar')
-                    ->label('Foto'),
+                    ->label('Foto')
+                    ->disk('public'),
 
                 Tables\Columns\TextColumn::make('nama_menu')
                     ->label('Nama')
@@ -83,7 +87,8 @@ class MenuResource extends Resource
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('harga')
-                    ->label('Harga'),
+                    ->label('Harga')
+                    ->numeric(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')

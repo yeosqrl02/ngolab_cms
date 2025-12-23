@@ -28,11 +28,17 @@ class CategoryResource extends Resource
      */
     public static function form(Schema $schema): Schema
     {
-        return $schema->components([
+            return $schema->components([
             TextInput::make('name')
                 ->label('Nama Kategori')
                 ->required()
                 ->maxLength(255),
+
+            TextInput::make('slug')
+                ->label('Slug')
+                ->nullable()
+                ->maxLength(255)
+                ->helperText('Bisa dikosongkan, akan otomatis dibuat dari nama kategori'),
         ]);
     }
 
